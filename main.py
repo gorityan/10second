@@ -18,6 +18,9 @@ class TenSecondTrapGame:
         # ゲームの状態
         self.game_state = "standby"  # standby, playing, result
         
+        # エンターキーのバインド
+        self.root.bind('<Return>', self.handle_enter_key)
+        
         # UI要素の設定
         self.setup_ui()
     
@@ -40,8 +43,8 @@ class TenSecondTrapGame:
         # 説明ラベル
         self.instruction_label = tk.Label(
             self.main_frame,
-            text="「スタート」ボタンを押すとタイマーが始まります。\n"
-                 "ちょうど10秒経ったと思ったら「ストップ」ボタンを押してください！\n"
+            text="「スタート」ボタンを押すか、Enterキーを押すとタイマーが始まります。\n"
+                 "ちょうど10秒経ったと思ったら「ストップ」ボタンを押すか、再度Enterキーを押してください！\n"
                  "途中で表示されるメッセージはあなたを惑わせるためのトラップです！",
             font=("Helvetica", 12),
             justify=tk.CENTER,
@@ -57,7 +60,7 @@ class TenSecondTrapGame:
         
         self.message_label = tk.Label(
             self.message_frame,
-            text="ゲームを開始するには「スタート」ボタンを押してください",
+            text="ゲームを開始するには「スタート」ボタンまたはEnterキーを押してください",
             font=("Helvetica", 14),
             fg="#FFF",
             bg="#333",
@@ -129,6 +132,13 @@ class TenSecondTrapGame:
         self.trap_thread = threading.Thread(target=self.display_trap_messages)
         self.trap_thread.daemon = True
         self.trap_thread.start()
+    
+    def handle_enter_key(self, event):
+        """Enterキーが押されたときの処理"""
+        if self.game_state == "standby" or self.game_state == "result":
+            self.start_game()
+        elif self.game_state == "playing":
+            self.stop_game()
     
     def stop_game(self):
         """ゲームを停止し、結果を表示する"""
