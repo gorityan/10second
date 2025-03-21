@@ -62,7 +62,7 @@ python ten_second_trap_game.py
 
 - 言語: Python 3.x
 - GUI: tkinter
-- 開発者: [あなたの名前]
+- 開発者: [gorityan]
 
 ## ライセンス
 
